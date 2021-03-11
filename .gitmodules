@@ -1,0 +1,3 @@
+[submodule "lodestone-data-exports"]
+	path = lodestone-data-exports
+	url = https://github.com/karashiiro/lodestone-data-exports

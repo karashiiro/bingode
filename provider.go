@@ -3,7 +3,7 @@ package bingode
 import (
 	"strings"
 
-	"github.com/karashiiro/bingode/pack/exports"
+	"github.com/karashiiro/bingode/internal/pack/exports"
 
 	"github.com/xivapi/godestone/v2/provider"
 	"github.com/xivapi/godestone/v2/provider/models"

@@ -1,5 +1,5 @@
 # bingode
-Binary data provider for godestone.
+Binary data provider for [godestone](https://github.com/xivapi/godestone).
 
 ## Contributing
 Make sure to checkout the submodules if you are changing pack information.

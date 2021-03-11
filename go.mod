@@ -4,5 +4,5 @@ go 1.15
 
 require (
 	github.com/google/flatbuffers v1.12.0
-	github.com/xivapi/godestone/v2 v2.0.0-pre4
+	github.com/xivapi/godestone/v2 v2.0.0
 )

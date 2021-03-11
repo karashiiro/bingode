@@ -1,24 +1,60 @@
 package bingode
 
-import "github.com/karashiiro/godestone"
+import "github.com/xivapi/godestone/v2"
 
 type bingodeProvider struct{}
 
 // New constructs a binary-data-backed data provider for use in
 // a godestone parser.
-func New() *godestone.DataProvider {
-	b := &bingodeProvider{}
-	return b
+func New() godestone.DataProvider {
+	b := bingodeProvider{}
+	return &b
 }
 
-func (b *bingodeProvider) ClassJob(name string) *models.ClassJob        {}
-func (b *bingodeProvider) Deity(name string) *models.NamedEntity        {}
-func (b *bingodeProvider) GrandCompany(name string) *models.NamedEntity {}
-func (b *bingodeProvider) Item(name string) *exports.Item               {}
-func (b *bingodeProvider) Minion(name string) *models.Minion            {}
-func (b *bingodeProvider) Mount(name string) *models.Mount              {}
-func (b *bingodeProvider) Race(name string) *models.GenderedEntity      {}
-func (b *bingodeProvider) Reputation(name string) *models.NamedEntity   {}
-func (b *bingodeProvider) Title(name string) *models.Title              {}
-func (b *bingodeProvider) Town(name string) *models.NamedEntity         {}
-func (b *bingodeProvider) Tribe(name string) *models.GenderedEntity     {}
+func (b *bingodeProvider) Achievement(name string) *godestone.NamedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) ClassJob(name string) *godestone.NamedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) Deity(name string) *godestone.NamedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) GrandCompany(name string) *godestone.NamedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) Item(name string) *godestone.NamedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) Minion(name string) *godestone.NamedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) Mount(name string) *godestone.NamedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) Race(name string) *godestone.GenderedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) Reputation(name string) *godestone.NamedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) Title(name string) *godestone.Title {
+	return nil
+}
+
+func (b *bingodeProvider) Town(name string) *godestone.NamedEntity {
+	return nil
+}
+
+func (b *bingodeProvider) Tribe(name string) *godestone.GenderedEntity {
+	return nil
+}

@@ -5,7 +5,8 @@ import (
 
 	"github.com/karashiiro/bingode/pack/exports"
 
-	godestone "github.com/xivapi/godestone/v2"
+	"github.com/xivapi/godestone/v2/provider"
+	"github.com/xivapi/godestone/v2/provider/models"
 )
 
 type bingodeProvider struct {
@@ -33,7 +34,7 @@ type namedEntityProvider interface {
 
 // New constructs a binary-data-backed data provider for use in
 // a godestone parser.
-func New() godestone.DataProvider {
+func New() provider.DataProvider {
 	b := bingodeProvider{}
 	return &b
 }
@@ -146,7 +147,7 @@ func (b *bingodeProvider) getTribeTable() *exports.TribeTable {
 	return b.tribeTable
 }
 
-func (b *bingodeProvider) Achievement(name string) *godestone.NamedEntity {
+func (b *bingodeProvider) Achievement(name string) *models.NamedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getAchievementTable().AchievementsLength()
@@ -166,7 +167,7 @@ func (b *bingodeProvider) Achievement(name string) *godestone.NamedEntity {
 			nameFr,
 			nameJa,
 		) {
-			return &godestone.NamedEntity{
+			return &models.NamedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -181,7 +182,7 @@ func (b *bingodeProvider) Achievement(name string) *godestone.NamedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) ClassJob(name string) *godestone.NamedEntity {
+func (b *bingodeProvider) ClassJob(name string) *models.NamedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getClassJobTable().ClassJobsLength()
@@ -201,7 +202,7 @@ func (b *bingodeProvider) ClassJob(name string) *godestone.NamedEntity {
 			nameFr,
 			nameJa,
 		) {
-			return &godestone.NamedEntity{
+			return &models.NamedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -216,7 +217,7 @@ func (b *bingodeProvider) ClassJob(name string) *godestone.NamedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) Deity(name string) *godestone.NamedEntity {
+func (b *bingodeProvider) Deity(name string) *models.NamedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getDeityTable().DeitiesLength()
@@ -236,7 +237,7 @@ func (b *bingodeProvider) Deity(name string) *godestone.NamedEntity {
 			nameFr,
 			nameJa,
 		) {
-			return &godestone.NamedEntity{
+			return &models.NamedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -251,7 +252,7 @@ func (b *bingodeProvider) Deity(name string) *godestone.NamedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) GrandCompany(name string) *godestone.NamedEntity {
+func (b *bingodeProvider) GrandCompany(name string) *models.NamedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getGrandCompanyTable().GrandCompaniesLength()
@@ -271,7 +272,7 @@ func (b *bingodeProvider) GrandCompany(name string) *godestone.NamedEntity {
 			nameFr,
 			nameJa,
 		) {
-			return &godestone.NamedEntity{
+			return &models.NamedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -286,7 +287,7 @@ func (b *bingodeProvider) GrandCompany(name string) *godestone.NamedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) Item(name string) *godestone.NamedEntity {
+func (b *bingodeProvider) Item(name string) *models.NamedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getItemTable().ItemsLength()
@@ -306,7 +307,7 @@ func (b *bingodeProvider) Item(name string) *godestone.NamedEntity {
 			nameFr,
 			nameJa,
 		) {
-			return &godestone.NamedEntity{
+			return &models.NamedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -321,7 +322,7 @@ func (b *bingodeProvider) Item(name string) *godestone.NamedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) Minion(name string) *godestone.NamedEntity {
+func (b *bingodeProvider) Minion(name string) *models.NamedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getMinionTable().MinionsLength()
@@ -341,7 +342,7 @@ func (b *bingodeProvider) Minion(name string) *godestone.NamedEntity {
 			nameFr,
 			nameJa,
 		) {
-			return &godestone.NamedEntity{
+			return &models.NamedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -356,7 +357,7 @@ func (b *bingodeProvider) Minion(name string) *godestone.NamedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) Mount(name string) *godestone.NamedEntity {
+func (b *bingodeProvider) Mount(name string) *models.NamedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getMountTable().MountsLength()
@@ -376,7 +377,7 @@ func (b *bingodeProvider) Mount(name string) *godestone.NamedEntity {
 			nameFr,
 			nameJa,
 		) {
-			return &godestone.NamedEntity{
+			return &models.NamedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -391,7 +392,7 @@ func (b *bingodeProvider) Mount(name string) *godestone.NamedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) Race(name string) *godestone.GenderedEntity {
+func (b *bingodeProvider) Race(name string) *models.GenderedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getRaceTable().RacesLength()
@@ -419,7 +420,7 @@ func (b *bingodeProvider) Race(name string) *godestone.GenderedEntity {
 			nameFeminineDe,
 			nameFeminineFr,
 		) {
-			return &godestone.GenderedEntity{
+			return &models.GenderedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -438,7 +439,7 @@ func (b *bingodeProvider) Race(name string) *godestone.GenderedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) Reputation(name string) *godestone.NamedEntity {
+func (b *bingodeProvider) Reputation(name string) *models.NamedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getReputationTable().ReputationsLength()
@@ -458,7 +459,7 @@ func (b *bingodeProvider) Reputation(name string) *godestone.NamedEntity {
 			nameFr,
 			nameJa,
 		) {
-			return &godestone.NamedEntity{
+			return &models.NamedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -473,7 +474,7 @@ func (b *bingodeProvider) Reputation(name string) *godestone.NamedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) Title(name string) *godestone.Title {
+func (b *bingodeProvider) Title(name string) *models.TitleInternal {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getTitleTable().TitlesLength()
@@ -501,7 +502,7 @@ func (b *bingodeProvider) Title(name string) *godestone.Title {
 			nameFeminineDe,
 			nameFeminineFr,
 		) {
-			ge := &godestone.GenderedEntity{
+			ge := &models.GenderedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -515,7 +516,7 @@ func (b *bingodeProvider) Title(name string) *godestone.Title {
 				NameFeminineFR:  nameFeminineFr,
 			}
 
-			return &godestone.Title{
+			return &models.TitleInternal{
 				GenderedEntity: ge,
 				Prefix:         o.IsPrefix(),
 			}
@@ -525,7 +526,7 @@ func (b *bingodeProvider) Title(name string) *godestone.Title {
 	return nil
 }
 
-func (b *bingodeProvider) Town(name string) *godestone.NamedEntity {
+func (b *bingodeProvider) Town(name string) *models.NamedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getTownTable().TownsLength()
@@ -545,7 +546,7 @@ func (b *bingodeProvider) Town(name string) *godestone.NamedEntity {
 			nameFr,
 			nameJa,
 		) {
-			return &godestone.NamedEntity{
+			return &models.NamedEntity{
 				ID:   o.Id(),
 				Name: name,
 
@@ -560,7 +561,7 @@ func (b *bingodeProvider) Town(name string) *godestone.NamedEntity {
 	return nil
 }
 
-func (b *bingodeProvider) Tribe(name string) *godestone.GenderedEntity {
+func (b *bingodeProvider) Tribe(name string) *models.GenderedEntity {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getTribeTable().TribesLength()
@@ -588,7 +589,7 @@ func (b *bingodeProvider) Tribe(name string) *godestone.GenderedEntity {
 			nameFeminineDe,
 			nameFeminineFr,
 		) {
-			return &godestone.GenderedEntity{
+			return &models.GenderedEntity{
 				ID:   o.Id(),
 				Name: name,
 

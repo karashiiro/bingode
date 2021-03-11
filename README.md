@@ -1,6 +1,15 @@
 # bingode
 Binary data provider for [godestone](https://github.com/xivapi/godestone).
 
+## Installation
+`go get github.com/karashiiro/bingode`
+
+## Usage
+```go
+bin := bingode.New()
+s := godestone.NewScraper(bin, godestone.EN)
+```
+
 ## Contributing
 Make sure to checkout the submodules if you are changing pack information.
 

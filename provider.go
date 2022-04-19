@@ -228,7 +228,7 @@ func (b *bingodeProvider) JobForClass(name string) (*models.ClassJobInternal, er
 		o := exports.ClassJob{}
 		b.getClassJobTable().ClassJobs(&o, i)
 
-		if o.JobIndex() != 0 {
+		if o.JobIndex() == 0 {
 			continue
 		}
 

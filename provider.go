@@ -27,14 +27,6 @@ type bingodeProvider struct {
 	tribeTable        *exports.TribeTable
 }
 
-type namedEntityProvider interface {
-	Id() uint32
-	NameEn() string
-	NameDe() string
-	NameFr() string
-	NameJa() string
-}
-
 // New constructs a binary-data-backed data provider for use in
 // a godestone parser.
 func New() provider.DataProvider {
@@ -185,7 +177,7 @@ func (b *bingodeProvider) Achievement(name string) (*models.NamedEntity, error) 
 	return nil, errors.New(notFound)
 }
 
-func (b *bingodeProvider) ClassJob(name string) (*models.NamedEntity, error) {
+func (b *bingodeProvider) ClassJob(name string) (*models.ClassJobInternal, error) {
 	nameLower := strings.ToLower(name)
 
 	nLength := b.getClassJobTable().ClassJobsLength()
@@ -205,14 +197,59 @@ func (b *bingodeProvider) ClassJob(name string) (*models.NamedEntity, error) {
 			nameFr,
 			nameJa,
 		) {
-			return &models.NamedEntity{
-				ID:   o.Id(),
-				Name: name,
+			return &models.ClassJobInternal{
+				NamedEntity: &models.NamedEntity{
+					ID:   o.Id(),
+					Name: name,
 
-				NameEN: nameEn,
-				NameDE: nameDe,
-				NameFR: nameFr,
-				NameJA: nameJa,
+					NameEN: nameEn,
+					NameDE: nameDe,
+					NameFR: nameFr,
+					NameJA: nameJa,
+				},
+
+				Parent:   o.Parent(),
+				JobIndex: o.JobIndex(),
+			}, nil
+		}
+	}
+
+	return nil, errors.New(notFound)
+}
+
+func (b *bingodeProvider) JobForClass(name string) (*models.ClassJobInternal, error) {
+	cj, err := b.ClassJob(name)
+	if err != nil {
+		return nil, err
+	}
+
+	nLength := b.getClassJobTable().ClassJobsLength()
+	for i := 0; i < nLength; i++ {
+		o := exports.ClassJob{}
+		b.getClassJobTable().ClassJobs(&o, i)
+
+		if o.JobIndex() != 0 {
+			continue
+		}
+
+		nameEn := string(o.NameEn())
+		nameDe := string(o.NameDe())
+		nameFr := string(o.NameFr())
+		nameJa := string(o.NameJa())
+		if cj.Parent == o.Parent() {
+			return &models.ClassJobInternal{
+				NamedEntity: &models.NamedEntity{
+					ID:   o.Id(),
+					Name: name,
+
+					NameEN: nameEn,
+					NameDE: nameDe,
+					NameFR: nameFr,
+					NameJA: nameJa,
+				},
+
+				Parent:   o.Parent(),
+				JobIndex: o.JobIndex(),
 			}, nil
 		}
 	}

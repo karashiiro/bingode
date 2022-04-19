@@ -90,23 +90,31 @@ func (rcv *ClassJob) MutateId(n uint32) bool {
 	return rcv._tab.MutateUint32Slot(4, n)
 }
 
-func (rcv *ClassJob) NameEn() []byte {
+func (rcv *ClassJob) Parent() uint32 {
 	o := flatbuffers.UOffsetT(rcv._tab.Offset(6))
 	if o != 0 {
-		return rcv._tab.ByteVector(o + rcv._tab.Pos)
+		return rcv._tab.GetUint32(o + rcv._tab.Pos)
 	}
-	return nil
+	return 0
 }
 
-func (rcv *ClassJob) NameFr() []byte {
+func (rcv *ClassJob) MutateParent(n uint32) bool {
+	return rcv._tab.MutateUint32Slot(6, n)
+}
+
+func (rcv *ClassJob) JobIndex() uint32 {
 	o := flatbuffers.UOffsetT(rcv._tab.Offset(8))
 	if o != 0 {
-		return rcv._tab.ByteVector(o + rcv._tab.Pos)
+		return rcv._tab.GetUint32(o + rcv._tab.Pos)
 	}
-	return nil
+	return 0
 }
 
-func (rcv *ClassJob) NameDe() []byte {
+func (rcv *ClassJob) MutateJobIndex(n uint32) bool {
+	return rcv._tab.MutateUint32Slot(8, n)
+}
+
+func (rcv *ClassJob) NameEn() []byte {
 	o := flatbuffers.UOffsetT(rcv._tab.Offset(10))
 	if o != 0 {
 		return rcv._tab.ByteVector(o + rcv._tab.Pos)
@@ -114,7 +122,7 @@ func (rcv *ClassJob) NameDe() []byte {
 	return nil
 }
 
-func (rcv *ClassJob) NameJa() []byte {
+func (rcv *ClassJob) NameFr() []byte {
 	o := flatbuffers.UOffsetT(rcv._tab.Offset(12))
 	if o != 0 {
 		return rcv._tab.ByteVector(o + rcv._tab.Pos)
@@ -122,23 +130,45 @@ func (rcv *ClassJob) NameJa() []byte {
 	return nil
 }
 
+func (rcv *ClassJob) NameDe() []byte {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(14))
+	if o != 0 {
+		return rcv._tab.ByteVector(o + rcv._tab.Pos)
+	}
+	return nil
+}
+
+func (rcv *ClassJob) NameJa() []byte {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(16))
+	if o != 0 {
+		return rcv._tab.ByteVector(o + rcv._tab.Pos)
+	}
+	return nil
+}
+
 func ClassJobStart(builder *flatbuffers.Builder) {
-	builder.StartObject(5)
+	builder.StartObject(7)
 }
 func ClassJobAddId(builder *flatbuffers.Builder, Id uint32) {
 	builder.PrependUint32Slot(0, Id, 0)
 }
+func ClassJobAddParent(builder *flatbuffers.Builder, Parent uint32) {
+	builder.PrependUint32Slot(1, Parent, 0)
+}
+func ClassJobAddJobIndex(builder *flatbuffers.Builder, JobIndex uint32) {
+	builder.PrependUint32Slot(2, JobIndex, 0)
+}
 func ClassJobAddNameEn(builder *flatbuffers.Builder, NameEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(NameEn), 0)
+	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(NameEn), 0)
 }
 func ClassJobAddNameFr(builder *flatbuffers.Builder, NameFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(NameFr), 0)
+	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(NameFr), 0)
 }
 func ClassJobAddNameDe(builder *flatbuffers.Builder, NameDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(NameDe), 0)
+	builder.PrependUOffsetTSlot(5, flatbuffers.UOffsetT(NameDe), 0)
 }
 func ClassJobAddNameJa(builder *flatbuffers.Builder, NameJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(NameJa), 0)
+	builder.PrependUOffsetTSlot(6, flatbuffers.UOffsetT(NameJa), 0)
 }
 func ClassJobEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()

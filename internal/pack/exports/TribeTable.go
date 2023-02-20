@@ -17,6 +17,13 @@ func GetRootAsTribeTable(buf []byte, offset flatbuffers.UOffsetT) *TribeTable {
 	return x
 }
 
+func GetSizePrefixedRootAsTribeTable(buf []byte, offset flatbuffers.UOffsetT) *TribeTable {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &TribeTable{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *TribeTable) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i
@@ -49,8 +56,8 @@ func (rcv *TribeTable) TribesLength() int {
 func TribeTableStart(builder *flatbuffers.Builder) {
 	builder.StartObject(1)
 }
-func TribeTableAddTribes(builder *flatbuffers.Builder, Tribes flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(Tribes), 0)
+func TribeTableAddTribes(builder *flatbuffers.Builder, tribes flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(tribes), 0)
 }
 func TribeTableStartTribesVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
 	return builder.StartVector(4, numElems, 4)
@@ -66,6 +73,13 @@ func GetRootAsTribe(buf []byte, offset flatbuffers.UOffsetT) *Tribe {
 	n := flatbuffers.GetUOffsetT(buf[offset:])
 	x := &Tribe{}
 	x.Init(buf, n+offset)
+	return x
+}
+
+func GetSizePrefixedRootAsTribe(buf []byte, offset flatbuffers.UOffsetT) *Tribe {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &Tribe{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
 }
 
@@ -157,32 +171,32 @@ func (rcv *Tribe) NameFeminineJa() []byte {
 func TribeStart(builder *flatbuffers.Builder) {
 	builder.StartObject(9)
 }
-func TribeAddId(builder *flatbuffers.Builder, Id uint32) {
-	builder.PrependUint32Slot(0, Id, 0)
+func TribeAddId(builder *flatbuffers.Builder, id uint32) {
+	builder.PrependUint32Slot(0, id, 0)
 }
-func TribeAddNameMasculineEn(builder *flatbuffers.Builder, NameMasculineEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(NameMasculineEn), 0)
+func TribeAddNameMasculineEn(builder *flatbuffers.Builder, nameMasculineEn flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(nameMasculineEn), 0)
 }
-func TribeAddNameMasculineFr(builder *flatbuffers.Builder, NameMasculineFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(NameMasculineFr), 0)
+func TribeAddNameMasculineFr(builder *flatbuffers.Builder, nameMasculineFr flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(nameMasculineFr), 0)
 }
-func TribeAddNameMasculineDe(builder *flatbuffers.Builder, NameMasculineDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(NameMasculineDe), 0)
+func TribeAddNameMasculineDe(builder *flatbuffers.Builder, nameMasculineDe flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(nameMasculineDe), 0)
 }
-func TribeAddNameMasculineJa(builder *flatbuffers.Builder, NameMasculineJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(NameMasculineJa), 0)
+func TribeAddNameMasculineJa(builder *flatbuffers.Builder, nameMasculineJa flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(nameMasculineJa), 0)
 }
-func TribeAddNameFeminineEn(builder *flatbuffers.Builder, NameFeminineEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(5, flatbuffers.UOffsetT(NameFeminineEn), 0)
+func TribeAddNameFeminineEn(builder *flatbuffers.Builder, nameFeminineEn flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(5, flatbuffers.UOffsetT(nameFeminineEn), 0)
 }
-func TribeAddNameFeminineFr(builder *flatbuffers.Builder, NameFeminineFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(6, flatbuffers.UOffsetT(NameFeminineFr), 0)
+func TribeAddNameFeminineFr(builder *flatbuffers.Builder, nameFeminineFr flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(6, flatbuffers.UOffsetT(nameFeminineFr), 0)
 }
-func TribeAddNameFeminineDe(builder *flatbuffers.Builder, NameFeminineDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(7, flatbuffers.UOffsetT(NameFeminineDe), 0)
+func TribeAddNameFeminineDe(builder *flatbuffers.Builder, nameFeminineDe flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(7, flatbuffers.UOffsetT(nameFeminineDe), 0)
 }
-func TribeAddNameFeminineJa(builder *flatbuffers.Builder, NameFeminineJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(8, flatbuffers.UOffsetT(NameFeminineJa), 0)
+func TribeAddNameFeminineJa(builder *flatbuffers.Builder, nameFeminineJa flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(8, flatbuffers.UOffsetT(nameFeminineJa), 0)
 }
 func TribeEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()

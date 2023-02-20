@@ -17,6 +17,13 @@ func GetRootAsTownTable(buf []byte, offset flatbuffers.UOffsetT) *TownTable {
 	return x
 }
 
+func GetSizePrefixedRootAsTownTable(buf []byte, offset flatbuffers.UOffsetT) *TownTable {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &TownTable{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *TownTable) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i
@@ -49,8 +56,8 @@ func (rcv *TownTable) TownsLength() int {
 func TownTableStart(builder *flatbuffers.Builder) {
 	builder.StartObject(1)
 }
-func TownTableAddTowns(builder *flatbuffers.Builder, Towns flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(Towns), 0)
+func TownTableAddTowns(builder *flatbuffers.Builder, towns flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(towns), 0)
 }
 func TownTableStartTownsVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
 	return builder.StartVector(4, numElems, 4)
@@ -66,6 +73,13 @@ func GetRootAsTown(buf []byte, offset flatbuffers.UOffsetT) *Town {
 	n := flatbuffers.GetUOffsetT(buf[offset:])
 	x := &Town{}
 	x.Init(buf, n+offset)
+	return x
+}
+
+func GetSizePrefixedRootAsTown(buf []byte, offset flatbuffers.UOffsetT) *Town {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &Town{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
 }
 
@@ -125,20 +139,20 @@ func (rcv *Town) NameJa() []byte {
 func TownStart(builder *flatbuffers.Builder) {
 	builder.StartObject(5)
 }
-func TownAddId(builder *flatbuffers.Builder, Id uint32) {
-	builder.PrependUint32Slot(0, Id, 0)
+func TownAddId(builder *flatbuffers.Builder, id uint32) {
+	builder.PrependUint32Slot(0, id, 0)
 }
-func TownAddNameEn(builder *flatbuffers.Builder, NameEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(NameEn), 0)
+func TownAddNameEn(builder *flatbuffers.Builder, nameEn flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(nameEn), 0)
 }
-func TownAddNameFr(builder *flatbuffers.Builder, NameFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(NameFr), 0)
+func TownAddNameFr(builder *flatbuffers.Builder, nameFr flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(nameFr), 0)
 }
-func TownAddNameDe(builder *flatbuffers.Builder, NameDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(NameDe), 0)
+func TownAddNameDe(builder *flatbuffers.Builder, nameDe flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(nameDe), 0)
 }
-func TownAddNameJa(builder *flatbuffers.Builder, NameJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(NameJa), 0)
+func TownAddNameJa(builder *flatbuffers.Builder, nameJa flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(nameJa), 0)
 }
 func TownEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()

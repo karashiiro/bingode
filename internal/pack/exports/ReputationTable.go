@@ -17,6 +17,13 @@ func GetRootAsReputationTable(buf []byte, offset flatbuffers.UOffsetT) *Reputati
 	return x
 }
 
+func GetSizePrefixedRootAsReputationTable(buf []byte, offset flatbuffers.UOffsetT) *ReputationTable {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &ReputationTable{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *ReputationTable) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i
@@ -49,8 +56,8 @@ func (rcv *ReputationTable) ReputationsLength() int {
 func ReputationTableStart(builder *flatbuffers.Builder) {
 	builder.StartObject(1)
 }
-func ReputationTableAddReputations(builder *flatbuffers.Builder, Reputations flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(Reputations), 0)
+func ReputationTableAddReputations(builder *flatbuffers.Builder, reputations flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(reputations), 0)
 }
 func ReputationTableStartReputationsVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
 	return builder.StartVector(4, numElems, 4)
@@ -66,6 +73,13 @@ func GetRootAsReputation(buf []byte, offset flatbuffers.UOffsetT) *Reputation {
 	n := flatbuffers.GetUOffsetT(buf[offset:])
 	x := &Reputation{}
 	x.Init(buf, n+offset)
+	return x
+}
+
+func GetSizePrefixedRootAsReputation(buf []byte, offset flatbuffers.UOffsetT) *Reputation {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &Reputation{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
 }
 
@@ -125,20 +139,20 @@ func (rcv *Reputation) NameJa() []byte {
 func ReputationStart(builder *flatbuffers.Builder) {
 	builder.StartObject(5)
 }
-func ReputationAddId(builder *flatbuffers.Builder, Id uint32) {
-	builder.PrependUint32Slot(0, Id, 0)
+func ReputationAddId(builder *flatbuffers.Builder, id uint32) {
+	builder.PrependUint32Slot(0, id, 0)
 }
-func ReputationAddNameEn(builder *flatbuffers.Builder, NameEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(NameEn), 0)
+func ReputationAddNameEn(builder *flatbuffers.Builder, nameEn flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(nameEn), 0)
 }
-func ReputationAddNameFr(builder *flatbuffers.Builder, NameFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(NameFr), 0)
+func ReputationAddNameFr(builder *flatbuffers.Builder, nameFr flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(nameFr), 0)
 }
-func ReputationAddNameDe(builder *flatbuffers.Builder, NameDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(NameDe), 0)
+func ReputationAddNameDe(builder *flatbuffers.Builder, nameDe flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(nameDe), 0)
 }
-func ReputationAddNameJa(builder *flatbuffers.Builder, NameJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(NameJa), 0)
+func ReputationAddNameJa(builder *flatbuffers.Builder, nameJa flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(nameJa), 0)
 }
 func ReputationEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()

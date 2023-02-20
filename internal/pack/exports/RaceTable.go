@@ -17,6 +17,13 @@ func GetRootAsRaceTable(buf []byte, offset flatbuffers.UOffsetT) *RaceTable {
 	return x
 }
 
+func GetSizePrefixedRootAsRaceTable(buf []byte, offset flatbuffers.UOffsetT) *RaceTable {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &RaceTable{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *RaceTable) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i
@@ -49,8 +56,8 @@ func (rcv *RaceTable) RacesLength() int {
 func RaceTableStart(builder *flatbuffers.Builder) {
 	builder.StartObject(1)
 }
-func RaceTableAddRaces(builder *flatbuffers.Builder, Races flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(Races), 0)
+func RaceTableAddRaces(builder *flatbuffers.Builder, races flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(races), 0)
 }
 func RaceTableStartRacesVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
 	return builder.StartVector(4, numElems, 4)
@@ -66,6 +73,13 @@ func GetRootAsRace(buf []byte, offset flatbuffers.UOffsetT) *Race {
 	n := flatbuffers.GetUOffsetT(buf[offset:])
 	x := &Race{}
 	x.Init(buf, n+offset)
+	return x
+}
+
+func GetSizePrefixedRootAsRace(buf []byte, offset flatbuffers.UOffsetT) *Race {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &Race{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
 }
 
@@ -157,32 +171,32 @@ func (rcv *Race) NameFeminineJa() []byte {
 func RaceStart(builder *flatbuffers.Builder) {
 	builder.StartObject(9)
 }
-func RaceAddId(builder *flatbuffers.Builder, Id uint32) {
-	builder.PrependUint32Slot(0, Id, 0)
+func RaceAddId(builder *flatbuffers.Builder, id uint32) {
+	builder.PrependUint32Slot(0, id, 0)
 }
-func RaceAddNameMasculineEn(builder *flatbuffers.Builder, NameMasculineEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(NameMasculineEn), 0)
+func RaceAddNameMasculineEn(builder *flatbuffers.Builder, nameMasculineEn flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(nameMasculineEn), 0)
 }
-func RaceAddNameMasculineFr(builder *flatbuffers.Builder, NameMasculineFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(NameMasculineFr), 0)
+func RaceAddNameMasculineFr(builder *flatbuffers.Builder, nameMasculineFr flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(nameMasculineFr), 0)
 }
-func RaceAddNameMasculineDe(builder *flatbuffers.Builder, NameMasculineDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(NameMasculineDe), 0)
+func RaceAddNameMasculineDe(builder *flatbuffers.Builder, nameMasculineDe flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(nameMasculineDe), 0)
 }
-func RaceAddNameMasculineJa(builder *flatbuffers.Builder, NameMasculineJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(NameMasculineJa), 0)
+func RaceAddNameMasculineJa(builder *flatbuffers.Builder, nameMasculineJa flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(nameMasculineJa), 0)
 }
-func RaceAddNameFeminineEn(builder *flatbuffers.Builder, NameFeminineEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(5, flatbuffers.UOffsetT(NameFeminineEn), 0)
+func RaceAddNameFeminineEn(builder *flatbuffers.Builder, nameFeminineEn flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(5, flatbuffers.UOffsetT(nameFeminineEn), 0)
 }
-func RaceAddNameFeminineFr(builder *flatbuffers.Builder, NameFeminineFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(6, flatbuffers.UOffsetT(NameFeminineFr), 0)
+func RaceAddNameFeminineFr(builder *flatbuffers.Builder, nameFeminineFr flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(6, flatbuffers.UOffsetT(nameFeminineFr), 0)
 }
-func RaceAddNameFeminineDe(builder *flatbuffers.Builder, NameFeminineDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(7, flatbuffers.UOffsetT(NameFeminineDe), 0)
+func RaceAddNameFeminineDe(builder *flatbuffers.Builder, nameFeminineDe flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(7, flatbuffers.UOffsetT(nameFeminineDe), 0)
 }
-func RaceAddNameFeminineJa(builder *flatbuffers.Builder, NameFeminineJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(8, flatbuffers.UOffsetT(NameFeminineJa), 0)
+func RaceAddNameFeminineJa(builder *flatbuffers.Builder, nameFeminineJa flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(8, flatbuffers.UOffsetT(nameFeminineJa), 0)
 }
 func RaceEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()

@@ -17,6 +17,13 @@ func GetRootAsTitleTable(buf []byte, offset flatbuffers.UOffsetT) *TitleTable {
 	return x
 }
 
+func GetSizePrefixedRootAsTitleTable(buf []byte, offset flatbuffers.UOffsetT) *TitleTable {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &TitleTable{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
 func (rcv *TitleTable) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i
@@ -49,8 +56,8 @@ func (rcv *TitleTable) TitlesLength() int {
 func TitleTableStart(builder *flatbuffers.Builder) {
 	builder.StartObject(1)
 }
-func TitleTableAddTitles(builder *flatbuffers.Builder, Titles flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(Titles), 0)
+func TitleTableAddTitles(builder *flatbuffers.Builder, titles flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(titles), 0)
 }
 func TitleTableStartTitlesVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
 	return builder.StartVector(4, numElems, 4)
@@ -66,6 +73,13 @@ func GetRootAsTitle(buf []byte, offset flatbuffers.UOffsetT) *Title {
 	n := flatbuffers.GetUOffsetT(buf[offset:])
 	x := &Title{}
 	x.Init(buf, n+offset)
+	return x
+}
+
+func GetSizePrefixedRootAsTitle(buf []byte, offset flatbuffers.UOffsetT) *Title {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &Title{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
 }
 
@@ -169,35 +183,35 @@ func (rcv *Title) NameFeminineJa() []byte {
 func TitleStart(builder *flatbuffers.Builder) {
 	builder.StartObject(10)
 }
-func TitleAddId(builder *flatbuffers.Builder, Id uint32) {
-	builder.PrependUint32Slot(0, Id, 0)
+func TitleAddId(builder *flatbuffers.Builder, id uint32) {
+	builder.PrependUint32Slot(0, id, 0)
 }
-func TitleAddIsPrefix(builder *flatbuffers.Builder, IsPrefix bool) {
-	builder.PrependBoolSlot(1, IsPrefix, false)
+func TitleAddIsPrefix(builder *flatbuffers.Builder, isPrefix bool) {
+	builder.PrependBoolSlot(1, isPrefix, false)
 }
-func TitleAddNameMasculineEn(builder *flatbuffers.Builder, NameMasculineEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(NameMasculineEn), 0)
+func TitleAddNameMasculineEn(builder *flatbuffers.Builder, nameMasculineEn flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(nameMasculineEn), 0)
 }
-func TitleAddNameMasculineFr(builder *flatbuffers.Builder, NameMasculineFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(NameMasculineFr), 0)
+func TitleAddNameMasculineFr(builder *flatbuffers.Builder, nameMasculineFr flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(nameMasculineFr), 0)
 }
-func TitleAddNameMasculineDe(builder *flatbuffers.Builder, NameMasculineDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(NameMasculineDe), 0)
+func TitleAddNameMasculineDe(builder *flatbuffers.Builder, nameMasculineDe flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(nameMasculineDe), 0)
 }
-func TitleAddNameMasculineJa(builder *flatbuffers.Builder, NameMasculineJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(5, flatbuffers.UOffsetT(NameMasculineJa), 0)
+func TitleAddNameMasculineJa(builder *flatbuffers.Builder, nameMasculineJa flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(5, flatbuffers.UOffsetT(nameMasculineJa), 0)
 }
-func TitleAddNameFeminineEn(builder *flatbuffers.Builder, NameFeminineEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(6, flatbuffers.UOffsetT(NameFeminineEn), 0)
+func TitleAddNameFeminineEn(builder *flatbuffers.Builder, nameFeminineEn flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(6, flatbuffers.UOffsetT(nameFeminineEn), 0)
 }
-func TitleAddNameFeminineFr(builder *flatbuffers.Builder, NameFeminineFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(7, flatbuffers.UOffsetT(NameFeminineFr), 0)
+func TitleAddNameFeminineFr(builder *flatbuffers.Builder, nameFeminineFr flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(7, flatbuffers.UOffsetT(nameFeminineFr), 0)
 }
-func TitleAddNameFeminineDe(builder *flatbuffers.Builder, NameFeminineDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(8, flatbuffers.UOffsetT(NameFeminineDe), 0)
+func TitleAddNameFeminineDe(builder *flatbuffers.Builder, nameFeminineDe flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(8, flatbuffers.UOffsetT(nameFeminineDe), 0)
 }
-func TitleAddNameFeminineJa(builder *flatbuffers.Builder, NameFeminineJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(9, flatbuffers.UOffsetT(NameFeminineJa), 0)
+func TitleAddNameFeminineJa(builder *flatbuffers.Builder, nameFeminineJa flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(9, flatbuffers.UOffsetT(nameFeminineJa), 0)
 }
 func TitleEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()

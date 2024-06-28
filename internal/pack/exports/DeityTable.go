@@ -17,11 +17,19 @@ func GetRootAsDeityTable(buf []byte, offset flatbuffers.UOffsetT) *DeityTable {
 	return x
 }
 
+func FinishDeityTableBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsDeityTable(buf []byte, offset flatbuffers.UOffsetT) *DeityTable {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &DeityTable{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedDeityTableBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *DeityTable) Init(buf []byte, i flatbuffers.UOffsetT) {
@@ -41,6 +49,15 @@ func (rcv *DeityTable) Deities(obj *Deity, j int) bool {
 		x = rcv._tab.Indirect(x)
 		obj.Init(rcv._tab.Bytes, x)
 		return true
+	}
+	return false
+}
+
+func (rcv *DeityTable) DeitiesByKey(obj *Deity, key uint32) bool {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(4))
+	if o != 0 {
+		x := rcv._tab.Vector(o)
+		return obj.LookupByKey(key, x, rcv._tab.Bytes)
 	}
 	return false
 }
@@ -76,11 +93,19 @@ func GetRootAsDeity(buf []byte, offset flatbuffers.UOffsetT) *Deity {
 	return x
 }
 
+func FinishDeityBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsDeity(buf []byte, offset flatbuffers.UOffsetT) *Deity {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &Deity{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedDeityBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *Deity) Init(buf []byte, i flatbuffers.UOffsetT) {
@@ -102,6 +127,43 @@ func (rcv *Deity) Id() uint32 {
 
 func (rcv *Deity) MutateId(n uint32) bool {
 	return rcv._tab.MutateUint32Slot(4, n)
+}
+
+func DeityKeyCompare(o1, o2 flatbuffers.UOffsetT, buf []byte) bool {
+	obj1 := &Deity{}
+	obj2 := &Deity{}
+	obj1.Init(buf, flatbuffers.UOffsetT(len(buf))-o1)
+	obj2.Init(buf, flatbuffers.UOffsetT(len(buf))-o2)
+	return obj1.Id() < obj2.Id()
+}
+
+func (rcv *Deity) LookupByKey(key uint32, vectorLocation flatbuffers.UOffsetT, buf []byte) bool {
+	span := flatbuffers.GetUOffsetT(buf[vectorLocation-4:])
+	start := flatbuffers.UOffsetT(0)
+	for span != 0 {
+		middle := span / 2
+		tableOffset := flatbuffers.GetIndirectOffset(buf, vectorLocation+4*(start+middle))
+		obj := &Deity{}
+		obj.Init(buf, tableOffset)
+		val := obj.Id()
+		comp := 0
+		if val > key {
+			comp = 1
+		} else if val < key {
+			comp = -1
+		}
+		if comp > 0 {
+			span = middle
+		} else if comp < 0 {
+			middle += 1
+			start += middle
+			span -= middle
+		} else {
+			rcv.Init(buf, tableOffset)
+			return true
+		}
+	}
+	return false
 }
 
 func (rcv *Deity) NameEn() []byte {

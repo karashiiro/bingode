@@ -17,11 +17,19 @@ func GetRootAsAchievementTable(buf []byte, offset flatbuffers.UOffsetT) *Achieve
 	return x
 }
 
+func FinishAchievementTableBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsAchievementTable(buf []byte, offset flatbuffers.UOffsetT) *AchievementTable {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &AchievementTable{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedAchievementTableBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *AchievementTable) Init(buf []byte, i flatbuffers.UOffsetT) {
@@ -41,6 +49,15 @@ func (rcv *AchievementTable) Achievements(obj *Achievement, j int) bool {
 		x = rcv._tab.Indirect(x)
 		obj.Init(rcv._tab.Bytes, x)
 		return true
+	}
+	return false
+}
+
+func (rcv *AchievementTable) AchievementsByKey(obj *Achievement, key uint32) bool {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(4))
+	if o != 0 {
+		x := rcv._tab.Vector(o)
+		return obj.LookupByKey(key, x, rcv._tab.Bytes)
 	}
 	return false
 }
@@ -76,11 +93,19 @@ func GetRootAsAchievement(buf []byte, offset flatbuffers.UOffsetT) *Achievement 
 	return x
 }
 
+func FinishAchievementBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsAchievement(buf []byte, offset flatbuffers.UOffsetT) *Achievement {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &Achievement{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedAchievementBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *Achievement) Init(buf []byte, i flatbuffers.UOffsetT) {
@@ -102,6 +127,43 @@ func (rcv *Achievement) Id() uint32 {
 
 func (rcv *Achievement) MutateId(n uint32) bool {
 	return rcv._tab.MutateUint32Slot(4, n)
+}
+
+func AchievementKeyCompare(o1, o2 flatbuffers.UOffsetT, buf []byte) bool {
+	obj1 := &Achievement{}
+	obj2 := &Achievement{}
+	obj1.Init(buf, flatbuffers.UOffsetT(len(buf))-o1)
+	obj2.Init(buf, flatbuffers.UOffsetT(len(buf))-o2)
+	return obj1.Id() < obj2.Id()
+}
+
+func (rcv *Achievement) LookupByKey(key uint32, vectorLocation flatbuffers.UOffsetT, buf []byte) bool {
+	span := flatbuffers.GetUOffsetT(buf[vectorLocation-4:])
+	start := flatbuffers.UOffsetT(0)
+	for span != 0 {
+		middle := span / 2
+		tableOffset := flatbuffers.GetIndirectOffset(buf, vectorLocation+4*(start+middle))
+		obj := &Achievement{}
+		obj.Init(buf, tableOffset)
+		val := obj.Id()
+		comp := 0
+		if val > key {
+			comp = 1
+		} else if val < key {
+			comp = -1
+		}
+		if comp > 0 {
+			span = middle
+		} else if comp < 0 {
+			middle += 1
+			start += middle
+			span -= middle
+		} else {
+			rcv.Init(buf, tableOffset)
+			return true
+		}
+	}
+	return false
 }
 
 func (rcv *Achievement) NameEn() []byte {

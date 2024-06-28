@@ -17,11 +17,19 @@ func GetRootAsTitleTable(buf []byte, offset flatbuffers.UOffsetT) *TitleTable {
 	return x
 }
 
+func FinishTitleTableBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsTitleTable(buf []byte, offset flatbuffers.UOffsetT) *TitleTable {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &TitleTable{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedTitleTableBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *TitleTable) Init(buf []byte, i flatbuffers.UOffsetT) {
@@ -41,6 +49,15 @@ func (rcv *TitleTable) Titles(obj *Title, j int) bool {
 		x = rcv._tab.Indirect(x)
 		obj.Init(rcv._tab.Bytes, x)
 		return true
+	}
+	return false
+}
+
+func (rcv *TitleTable) TitlesByKey(obj *Title, key uint32) bool {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(4))
+	if o != 0 {
+		x := rcv._tab.Vector(o)
+		return obj.LookupByKey(key, x, rcv._tab.Bytes)
 	}
 	return false
 }
@@ -76,11 +93,19 @@ func GetRootAsTitle(buf []byte, offset flatbuffers.UOffsetT) *Title {
 	return x
 }
 
+func FinishTitleBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
 func GetSizePrefixedRootAsTitle(buf []byte, offset flatbuffers.UOffsetT) *Title {
 	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
 	x := &Title{}
 	x.Init(buf, n+offset+flatbuffers.SizeUint32)
 	return x
+}
+
+func FinishSizePrefixedTitleBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *Title) Init(buf []byte, i flatbuffers.UOffsetT) {
@@ -102,6 +127,43 @@ func (rcv *Title) Id() uint32 {
 
 func (rcv *Title) MutateId(n uint32) bool {
 	return rcv._tab.MutateUint32Slot(4, n)
+}
+
+func TitleKeyCompare(o1, o2 flatbuffers.UOffsetT, buf []byte) bool {
+	obj1 := &Title{}
+	obj2 := &Title{}
+	obj1.Init(buf, flatbuffers.UOffsetT(len(buf))-o1)
+	obj2.Init(buf, flatbuffers.UOffsetT(len(buf))-o2)
+	return obj1.Id() < obj2.Id()
+}
+
+func (rcv *Title) LookupByKey(key uint32, vectorLocation flatbuffers.UOffsetT, buf []byte) bool {
+	span := flatbuffers.GetUOffsetT(buf[vectorLocation-4:])
+	start := flatbuffers.UOffsetT(0)
+	for span != 0 {
+		middle := span / 2
+		tableOffset := flatbuffers.GetIndirectOffset(buf, vectorLocation+4*(start+middle))
+		obj := &Title{}
+		obj.Init(buf, tableOffset)
+		val := obj.Id()
+		comp := 0
+		if val > key {
+			comp = 1
+		} else if val < key {
+			comp = -1
+		}
+		if comp > 0 {
+			span = middle
+		} else if comp < 0 {
+			middle += 1
+			start += middle
+			span -= middle
+		} else {
+			rcv.Init(buf, tableOffset)
+			return true
+		}
+	}
+	return false
 }
 
 func (rcv *Title) IsPrefix() bool {

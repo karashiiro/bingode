@@ -17,6 +17,21 @@ func GetRootAsGrandCompanyTable(buf []byte, offset flatbuffers.UOffsetT) *GrandC
 	return x
 }
 
+func FinishGrandCompanyTableBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
+func GetSizePrefixedRootAsGrandCompanyTable(buf []byte, offset flatbuffers.UOffsetT) *GrandCompanyTable {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &GrandCompanyTable{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
+func FinishSizePrefixedGrandCompanyTableBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
+}
+
 func (rcv *GrandCompanyTable) Init(buf []byte, i flatbuffers.UOffsetT) {
 	rcv._tab.Bytes = buf
 	rcv._tab.Pos = i
@@ -38,6 +53,15 @@ func (rcv *GrandCompanyTable) GrandCompanies(obj *GrandCompany, j int) bool {
 	return false
 }
 
+func (rcv *GrandCompanyTable) GrandCompaniesByKey(obj *GrandCompany, key uint32) bool {
+	o := flatbuffers.UOffsetT(rcv._tab.Offset(4))
+	if o != 0 {
+		x := rcv._tab.Vector(o)
+		return obj.LookupByKey(key, x, rcv._tab.Bytes)
+	}
+	return false
+}
+
 func (rcv *GrandCompanyTable) GrandCompaniesLength() int {
 	o := flatbuffers.UOffsetT(rcv._tab.Offset(4))
 	if o != 0 {
@@ -49,8 +73,8 @@ func (rcv *GrandCompanyTable) GrandCompaniesLength() int {
 func GrandCompanyTableStart(builder *flatbuffers.Builder) {
 	builder.StartObject(1)
 }
-func GrandCompanyTableAddGrandCompanies(builder *flatbuffers.Builder, GrandCompanies flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(GrandCompanies), 0)
+func GrandCompanyTableAddGrandCompanies(builder *flatbuffers.Builder, grandCompanies flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(0, flatbuffers.UOffsetT(grandCompanies), 0)
 }
 func GrandCompanyTableStartGrandCompaniesVector(builder *flatbuffers.Builder, numElems int) flatbuffers.UOffsetT {
 	return builder.StartVector(4, numElems, 4)
@@ -67,6 +91,21 @@ func GetRootAsGrandCompany(buf []byte, offset flatbuffers.UOffsetT) *GrandCompan
 	x := &GrandCompany{}
 	x.Init(buf, n+offset)
 	return x
+}
+
+func FinishGrandCompanyBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.Finish(offset)
+}
+
+func GetSizePrefixedRootAsGrandCompany(buf []byte, offset flatbuffers.UOffsetT) *GrandCompany {
+	n := flatbuffers.GetUOffsetT(buf[offset+flatbuffers.SizeUint32:])
+	x := &GrandCompany{}
+	x.Init(buf, n+offset+flatbuffers.SizeUint32)
+	return x
+}
+
+func FinishSizePrefixedGrandCompanyBuffer(builder *flatbuffers.Builder, offset flatbuffers.UOffsetT) {
+	builder.FinishSizePrefixed(offset)
 }
 
 func (rcv *GrandCompany) Init(buf []byte, i flatbuffers.UOffsetT) {
@@ -88,6 +127,43 @@ func (rcv *GrandCompany) Id() uint32 {
 
 func (rcv *GrandCompany) MutateId(n uint32) bool {
 	return rcv._tab.MutateUint32Slot(4, n)
+}
+
+func GrandCompanyKeyCompare(o1, o2 flatbuffers.UOffsetT, buf []byte) bool {
+	obj1 := &GrandCompany{}
+	obj2 := &GrandCompany{}
+	obj1.Init(buf, flatbuffers.UOffsetT(len(buf))-o1)
+	obj2.Init(buf, flatbuffers.UOffsetT(len(buf))-o2)
+	return obj1.Id() < obj2.Id()
+}
+
+func (rcv *GrandCompany) LookupByKey(key uint32, vectorLocation flatbuffers.UOffsetT, buf []byte) bool {
+	span := flatbuffers.GetUOffsetT(buf[vectorLocation-4:])
+	start := flatbuffers.UOffsetT(0)
+	for span != 0 {
+		middle := span / 2
+		tableOffset := flatbuffers.GetIndirectOffset(buf, vectorLocation+4*(start+middle))
+		obj := &GrandCompany{}
+		obj.Init(buf, tableOffset)
+		val := obj.Id()
+		comp := 0
+		if val > key {
+			comp = 1
+		} else if val < key {
+			comp = -1
+		}
+		if comp > 0 {
+			span = middle
+		} else if comp < 0 {
+			middle += 1
+			start += middle
+			span -= middle
+		} else {
+			rcv.Init(buf, tableOffset)
+			return true
+		}
+	}
+	return false
 }
 
 func (rcv *GrandCompany) NameEn() []byte {
@@ -125,20 +201,20 @@ func (rcv *GrandCompany) NameJa() []byte {
 func GrandCompanyStart(builder *flatbuffers.Builder) {
 	builder.StartObject(5)
 }
-func GrandCompanyAddId(builder *flatbuffers.Builder, Id uint32) {
-	builder.PrependUint32Slot(0, Id, 0)
+func GrandCompanyAddId(builder *flatbuffers.Builder, id uint32) {
+	builder.PrependUint32Slot(0, id, 0)
 }
-func GrandCompanyAddNameEn(builder *flatbuffers.Builder, NameEn flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(NameEn), 0)
+func GrandCompanyAddNameEn(builder *flatbuffers.Builder, nameEn flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(1, flatbuffers.UOffsetT(nameEn), 0)
 }
-func GrandCompanyAddNameFr(builder *flatbuffers.Builder, NameFr flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(NameFr), 0)
+func GrandCompanyAddNameFr(builder *flatbuffers.Builder, nameFr flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(2, flatbuffers.UOffsetT(nameFr), 0)
 }
-func GrandCompanyAddNameDe(builder *flatbuffers.Builder, NameDe flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(NameDe), 0)
+func GrandCompanyAddNameDe(builder *flatbuffers.Builder, nameDe flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(3, flatbuffers.UOffsetT(nameDe), 0)
 }
-func GrandCompanyAddNameJa(builder *flatbuffers.Builder, NameJa flatbuffers.UOffsetT) {
-	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(NameJa), 0)
+func GrandCompanyAddNameJa(builder *flatbuffers.Builder, nameJa flatbuffers.UOffsetT) {
+	builder.PrependUOffsetTSlot(4, flatbuffers.UOffsetT(nameJa), 0)
 }
 func GrandCompanyEnd(builder *flatbuffers.Builder) flatbuffers.UOffsetT {
 	return builder.EndObject()

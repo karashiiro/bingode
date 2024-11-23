@@ -11,11 +11,24 @@ s := godestone.NewScraper(bin, godestone.EN)
 ```
 
 ## Contributing
-Make sure to checkout the submodules if you are changing pack information.
 
 ### Dependencies
+  * A Unix-like shell environment (Git Bash works for this)
   * [`flatc`](https://google.github.io/flatbuffers)
   * [`go-bindata`](https://github.com/go-bindata/go-bindata)
 
 ### Updating
-Just run `generate.sh` in a `sh`-like shell, after updating `lodestone-data-exports` (Git Bash works perfectly).
+
+Clone the repository recursively and update the submodule to the latest commit:
+
+```sh
+git clone --recursive https://github.com/karashiiro/bingode
+cd bingode/ && git submodule update --remote --merge
+```
+
+Run the `generate.sh` script:
+
+```sh
+./generate.sh
+```
+
